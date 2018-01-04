@@ -13,7 +13,7 @@ if (fs.existsSync(process.cwd() + "/_set.json") === true){
   var manifest = JSON.parse(fs.readFileSync(process.cwd() + "/_set.json"))
 }
 else {
-  console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .'")
+  console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .' If you choose to do so, please simply restart Wikisets in the same directory to allow the program to load the proper files needed for it to run properly.")
 }
 
 vorpal
@@ -35,16 +35,34 @@ vorpal
 vorpal
   .command("add <article name>")
   .description("Add a specific article to your set")
-  .option("-v, --verbatim", "Use this article name verbatim")
+  .option("-v, --verbatim", "Use the given article name verbatim")
+  .option("-m, --multi [limit]", "Download all articles fuzzy matching your query")
   .action(function(args, callback) {
+    if (typeof args.options.verbatim !== "undefined" && typeof args.options.multi !== "undefined") {
+      console.log("The verbatim and multi options can't both be used at once... Sorry!")
+      callback()
+      return
+    }
     if (args.options.verbatim === true) {
       wikisets.set.addArticle(process.cwd(), manifest, args["article name"])
+      callback()
+      return
+    }
+    var limit
+    if (typeof args.options.multi !== "undefined") {
+      limit = 9
+      if (typeof args.options.multi === "number") {
+        limit = args.options.multi - 1
+      }
     }
     else {
-      wikisets.wikipedia.search(args["article name"], function(result) {
-        wikisets.set.addArticle(process.cwd(), manifest, result.results[0])
-      })
+      limit = 0
     }
+    wikisets.wikipedia.search(args["article name"], function(result) {
+      for (var i=0; i<limit; i++) {
+        wikisets.set.addArticle(process.cwd(), manifest, result.results[i])
+      }
+    })
     callback()
   })
 
@@ -58,7 +76,7 @@ vorpal
 
 vorpal
   .command("search <query>")
-  .description("Function to search wiki")
+  .description("Search Wikipedia")
   .action(function(args, callback) {
     wikisets.wikipedia.search(args.query, function(result) {
       for (var i=0; i<result.results.length; i++) {
@@ -71,5 +89,5 @@ vorpal
 console.log("Wikisets Started! Use the 'help' command to get started".green)
 
 vorpal
-  .delimiter("wikisets$".rainbow)
+  .delimiter("wikisets:".rainbow)
   .show()
