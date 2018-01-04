@@ -16,3 +16,6 @@ NPM: `npm install -g wikisets`
 Yarn: `yarn global add wikisets`
 
 To run the program, simply type in `wikisets` in the desired directory.
+
+# Contact
+If you have any questions, comments, or concerns, send me an email at [alexanderjwaitz@gmail.com](mailto:alexanderjwaitz@gmail.com)

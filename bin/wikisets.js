@@ -9,10 +9,20 @@ var fs = require("fs")
 var colors = require("colors")
 var wikisets = require("../lib/index.js")
 
-console.log("Wikisets Started! Use the 'help' command to get started".red)
+if (fs.existsSync(process.cwd() + "/_set.json") === true){
+  var manifest = JSON.parse(fs.readFileSync(process.cwd() + "/_set.json"))
+}
+else {
+  console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .'")
+}
 
-var manifest = fs.readFileSync(process.cwd() + "/_set.json")
-manifest = JSON.parse(manifest)
+vorpal
+  .command("new <set directory>")
+  .description("Create a new set")
+  .action(function(args, callback) {
+    wikisets.set.new(process.cwd() + "/" + args["set directory"])
+    callback()
+  })
 
 vorpal
   .command("sync")
@@ -57,6 +67,8 @@ vorpal
     })
     callback()
   })
+
+console.log("Wikisets Started! Use the 'help' command to get started".green)
 
 vorpal
   .delimiter("wikisets$".rainbow)
