@@ -1,0 +1,27 @@
+{
+  "name": "wikisets",
+  "version": "1.0.1-alpha",
+  "description": "Offline Wikipedia Set Manager",
+  "main": "lib/index.js",
+  "bin": {
+    "wikisets": "./bin/wikisets.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexwaitz/wikisets.git"
+  },
+  "author": "Alexander Waitz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alexwaitz/wikisets/issues"
+  },
+  "homepage": "https://github.com/alexwaitz/wikisets#readme",
+  "dependencies": {
+    "colors": "^1.1.2",
+    "vorpal": "^1.12.0",
+    "wikijs": "^4.5.0"
+  }
+}
