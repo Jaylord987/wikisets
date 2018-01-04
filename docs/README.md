@@ -17,8 +17,12 @@ Yarn: `yarn global add wikisets`
 
 To run the program, simply type in `wikisets` in the desired directory.
 
+# Commands
+### [`new`](commands/new.md)
+### [`sync`](commands/sync.md)
+### [`add`](commands/add.md)
+### [`remove`](commands/remove.md)
+### [`search`](commands/search.md)
+
 # Contact
 If you have any questions, comments, or concerns, send me an email at [alexanderjwaitz@gmail.com](mailto:alexanderjwaitz@gmail.com)
-
-# Docs
-To see more in-depth documentation for Wikisets, visit [this page](https://alexwaitz.github.io/wikisets).
