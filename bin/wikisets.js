@@ -7,6 +7,7 @@ CLI script
 var vorpal = require("vorpal")()
 var fs = require("fs")
 var colors = require("colors")
+var request = require("sync-request")
 var wikisets = require("../lib/index.js")
 
 if (fs.existsSync(process.cwd() + "/_set.json") === true){
@@ -20,7 +21,7 @@ vorpal
   .command("new <set directory>")
   .description("Create a new set")
   .action(function(args, callback) {
-    wikisets.set.new(process.cwd() + "/" + args["set directory"])
+    wikisets.set.newSet(process.cwd() + "/" + args["set directory"])
     callback()
   })
 
@@ -29,6 +30,30 @@ vorpal
   .description("Syncing manifest and downloaded articles")
   .action(function(args, callback) {
     wikisets.set.syncManifest(process.cwd(), manifest)
+    callback()
+  })
+
+vorpal
+  .command("merge <merging manifest path>")
+  .description("Merge a different set with your current one")
+  .option("--no-sync", "Don't sync the combined manifest")
+  .option("-u, --url", "Use the merging manifest path as a URL")
+  .action(function(args, callback) {
+    var merging_manifest
+    if (args.options.url === true) {
+      this.log("Loading data from passed URL")
+      var res = request("GET", args["merging manifest path"])
+      merging_manifest = JSON.parse(res.getBody())
+    }
+    else {
+      this.log("Loading passed file path")
+      merging_manifest = JSON.parse(fs.readFileSync(process.cwd() + "/" + args["merging manifest path"]))
+    } 
+    wikisets.set.mergeManifests(process.cwd(), manifest, merging_manifest)
+    this.log("Now syncing combined manifest")
+    if (args.options["no-sync"] !== true) {
+      wikisets.set.syncManifest(process.cwd(), manifest)
+    }
     callback()
   })
 

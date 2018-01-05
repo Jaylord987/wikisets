@@ -20,6 +20,7 @@ To run the program, simply type in `wikisets` in the desired directory.
 # Commands
 ### [`new`](commands/new.md)
 ### [`sync`](commands/sync.md)
+### [`merge`](commands/merge.md)
 ### [`add`](commands/add.md)
 ### [`remove`](commands/remove.md)
 ### [`search`](commands/search.md)
