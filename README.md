@@ -6,7 +6,7 @@ Wikisets is a CLI based application. It's purpose is to make it easy to get rele
 
 *Please Note*
 
-Wikisets is still in a alpha development period. Many features are to be coming.
+Wikisets is still in a alpha development period. Many features are to be coming. Also, as development progresses, much of the functionality and features are subject to change.
 
 # Get started
 To get started, install the application:

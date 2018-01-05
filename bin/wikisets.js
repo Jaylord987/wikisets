@@ -58,6 +58,19 @@ vorpal
   })
 
 vorpal
+  .command("scrape <url>")
+  .description("Scrape keywords and their given Wikipedia articles")
+  .action(function(args, callback) {
+    var keywords = wikisets.keywords.scrapeURL(args.url)
+    for (var i=0; i<keywords.length; i++) {
+      wikisets.wikipedia.search(keywords[i], function(result) {
+        wikisets.set.addArticle(process.cwd(), manifest, result.results[0])
+      })
+    }
+    callback()
+  })
+
+vorpal
   .command("add <article name>")
   .description("Add a specific article to your set")
   .option("-v, --verbatim", "Use the given article name verbatim")
@@ -108,6 +121,16 @@ vorpal
         console.log(result.results[i])
       }
     })
+    callback()
+  })
+
+vorpal
+  .command("contact")
+  .description("Get developer's contact info")
+  .action(function(args, callback) {
+    this.log("Send me an email at " + "alexanderjwaitz@gmail.com".blue)
+    this.log("Check out my Github at " + "https://github.com/alexwaitz".green)
+    this.log("Submit a bug report at " + "https://github.com/alexwaitz/wikisets/issues".red)
     callback()
   })
 

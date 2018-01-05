@@ -1,6 +1,6 @@
 {
   "name": "wikisets",
-  "version": "1.1.0-alpha",
+  "version": "1.1.1-alpha",
   "description": "Offline Wikipedia Set Manager",
   "main": "lib/index.js",
   "bin": {
@@ -25,7 +25,9 @@
   "homepage": "https://alexwaitz.github.io/wikisets/",
   "dependencies": {
     "colors": "^1.1.2",
+    "keyword-extractor": "^0.0.15",
     "sync-request": "^4.1.0",
+    "unfluff": "^3.0.0",
     "unique-concat": "^0.2.2",
     "vorpal": "^1.12.0",
     "wikijs": "^4.5.0"
