@@ -15,13 +15,13 @@ Yarn: `yarn global add wikisets`
 To run the program, simply type in `wikisets` in the desired directory.
 
 # Commands
-### [`new`](commands/new.md)
-### [`sync`](commands/sync.md)
-### [`merge`](commands/merge.md)
-### [`scrape`](commands/scrape.md)
-### [`add`](commands/add.md)
-### [`remove`](commands/remove.md)
-### [`search`](commands/search.md)
+### [`new`](./commands/new.html)
+### [`sync`](./commands/sync.html)
+### [`merge`](./commands/merge.html)
+### [`scrape`](./commands/scrape.html)
+### [`add`](./commands/add.html)
+### [`remove`](./commands/remove.html)
+### [`search`](./commands/search.html)
 
 # Contact
 If you have any questions, comments, or concerns, send me an email at [alexanderjwaitz@gmail.com](mailto:alexanderjwaitz@gmail.com)
