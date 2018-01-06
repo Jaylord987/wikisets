@@ -96,7 +96,7 @@ vorpal
       }
     }
     else {
-      limit = 0
+      limit = 1
     }
     wikisets.wikipedia.search(args["article name"], function(result) {
       for (var i=0; i<limit; i++) {
