@@ -10,8 +10,10 @@ var colors = require("colors")
 var request = require("sync-request")
 var wikisets = require("../lib/index.js")
 
-if (fs.existsSync(process.cwd() + "/_set.json") === true){
-  var manifest = JSON.parse(fs.readFileSync(process.cwd() + "/_set.json"))
+var run_location = process.cwd()
+
+if (fs.existsSync(run_location + "/_set.json") === true){
+  var manifest = JSON.parse(fs.readFileSync(run_location + "/_set.json"))
 }
 else {
   console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .' If you choose to do so, please simply restart Wikisets in the same directory to allow the program to load the proper files needed for it to run properly.")
@@ -21,7 +23,7 @@ vorpal
   .command("new <set directory>")
   .description("Create a new set")
   .action(function(args, callback) {
-    wikisets.set.newSet(process.cwd() + "/" + args["set directory"])
+    wikisets.set.newSet(run_location + "/" + args["set directory"])
     callback()
   })
 
@@ -29,7 +31,7 @@ vorpal
   .command("sync")
   .description("Syncing manifest and downloaded articles")
   .action(function(args, callback) {
-    wikisets.set.syncManifest(process.cwd(), manifest)
+    wikisets.set.syncManifest(run_location, manifest)
     callback()
   })
 
@@ -47,12 +49,12 @@ vorpal
     }
     else {
       this.log("Loading passed file path")
-      merging_manifest = JSON.parse(fs.readFileSync(process.cwd() + "/" + args["merging manifest path"]))
+      merging_manifest = JSON.parse(fs.readFileSync(run_location + "/" + args["merging manifest path"]))
     } 
-    wikisets.set.mergeManifests(process.cwd(), manifest, merging_manifest)
+    wikisets.set.mergeManifests(run_location, manifest, merging_manifest)
     this.log("Now syncing combined manifest")
     if (args.options["no-sync"] !== true) {
-      wikisets.set.syncManifest(process.cwd(), manifest)
+      wikisets.set.syncManifest(run_location, manifest)
     }
     callback()
   })
@@ -64,7 +66,7 @@ vorpal
     var keywords = wikisets.keywords.scrapeURL(args.url)
     for (var i=0; i<keywords.length; i++) {
       wikisets.wikipedia.search(keywords[i], function(result) {
-        wikisets.set.addArticle(process.cwd(), manifest, result.results[0])
+        wikisets.set.addArticle(run_location, manifest, result.results[0])
       })
     }
     callback()
@@ -82,7 +84,7 @@ vorpal
       return
     }
     if (args.options.verbatim === true) {
-      wikisets.set.addArticle(process.cwd(), manifest, args["article name"])
+      wikisets.set.addArticle(run_location, manifest, args["article name"])
       callback()
       return
     }
@@ -98,7 +100,7 @@ vorpal
     }
     wikisets.wikipedia.search(args["article name"], function(result) {
       for (var i=0; i<limit; i++) {
-        wikisets.set.addArticle(process.cwd(), manifest, result.results[i])
+        wikisets.set.addArticle(run_location, manifest, result.results[i])
       }
     })
     callback()
@@ -108,7 +110,7 @@ vorpal
   .command("remove <article name>")
   .description("Remove a specific article from your set")
   .action(function (args, callback) {
-    wikisets.set.removeArticle(process.cwd(), manifest, args["article name"])
+    wikisets.set.removeArticle(run_location, manifest, args["article name"])
     callback()
   })
 
