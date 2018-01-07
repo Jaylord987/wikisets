@@ -115,19 +115,6 @@ vorpal
   })
 
 vorpal
-  .command("version [increment]")
-  .description("View or increment your set's version")
-  .action(function(args, callback) {
-    if (args.increment === undefined) {
-      console.log("Your set '" + manifest.name + "' is at version '" + manifest.version + "'")
-    }
-    else {
-      wikisets.version.versionIncrement(run_location, manifest, args.increment)
-    }
-    callback()
-  })
-
-vorpal
   .command("search <query>")
   .description("Search Wikipedia")
   .action(function(args, callback) {

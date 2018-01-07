@@ -1,7 +1,6 @@
 {
   "name": "Model Set",
   "info": "This set is simply a model",
-  "version": "0.0.0",
   "articles": [
     "Some article"
   ]
