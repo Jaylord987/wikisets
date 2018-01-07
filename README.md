@@ -1,5 +1,9 @@
-# Wikisets
-Offline Wikipedia Set Manager
+<p></p>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Wikipedia_svg_logo.svg/2000px-Wikipedia_svg_logo.svg.png" height="200" />
+  <h1 align="center">Wikisets</h1>
+  <p align="center">Relevant, Offline Wikipedia Article Manager</p>
+</p>
 
 # What?
 Wikisets is a CLI based application. It's purpose is to make it easy to get relevant Wikipedia articles offline.
