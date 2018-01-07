@@ -1,5 +1,9 @@
-# Wikisets
-Offline Wikipedia Set Manager
+<p></p>
+<p align="center">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/Wikipedia_svg_logo.svg/2000px-Wikipedia_svg_logo.svg.png" height="200" />
+  <h1 align="center">Wikisets</h1>
+  <p align="center">Relevant, Offline Wikipedia Article Manager</p>
+</p>
 
 # What?
 Wikisets is a CLI based application. It's purpose is to make it easy to get relevant Wikipedia articles offline.
@@ -9,7 +13,9 @@ Wikisets is a CLI based application. It's purpose is to make it easy to get rele
 Wikisets is still in a alpha development period. Many features are to be coming. Also, as development progresses, much of the functionality and features are subject to change.
 
 # Get started
-To get started, install the application:
+To get started, download and install the application from [here](https://github.com/alexwaitz/wikisets/releases).
+
+Wikisets can also be installed with NPM or Yarn:
 
 NPM: `npm install -g wikisets`
 
