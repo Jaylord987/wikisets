@@ -122,7 +122,7 @@ vorpal
       console.log("Your set '" + manifest.name + "' is at version '" + manifest.version + "'")
     }
     else {
-      wikisets.version.versionIncrement(process.cwd(), manifest, args.increment)
+      wikisets.version.versionIncrement(run_location, manifest, args.increment)
     }
     callback()
   })
