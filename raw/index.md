@@ -4,11 +4,14 @@
   <h1 align="center">Wikisets</h1>
   <p align="center">Relevant, Offline Wikipedia Article Manager</p>
 </p>
-<p align="center">
-  [![npm](https://img.shields.io/npm/v/wikisets.svg)](https://www.npmjs.com/package/wikisets)&nbsp;[![GitHub commits](https://img.shields.io/github/commits-since/alexwaitz/wikisets/1.1.0-alpha.svg)](https://github.com/alexwaitz/wikisets)&nbsp;[![npm](https://img.shields.io/npm/l/wikisets.svg)](https://www.npmjs.com/package/wikisets)
+<p>
 </p>
 
 # What?
+[![npm](https://img.shields.io/npm/v/wikisets.svg)](https://www.npmjs.com/package/wikisets)
+[![GitHub commits](https://img.shields.io/github/commits-since/alexwaitz/wikisets/1.1.0-alpha.svg)](https://github.com/alexwaitz/wikisets)
+[![npm](https://img.shields.io/npm/l/wikisets.svg)](https://www.npmjs.com/package/wikisets)
+
 Wikisets is a CLI based application. It's purpose is to make it easy to get relevant Wikipedia articles offline.
 
 *Please Note*
