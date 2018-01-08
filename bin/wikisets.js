@@ -41,6 +41,7 @@ vorpal
   .option("--no-sync", "Don't sync the combined manifest")
   .option("-u, --url", "Use the merging manifest path as a URL")
   .action(function(args, callback) {
+    wikisets.version.bumpVersion(run_location, manifest)
     var merging_manifest
     if (args.options.url === true) {
       this.log("Loading data from passed URL")
@@ -52,8 +53,8 @@ vorpal
       merging_manifest = JSON.parse(fs.readFileSync(run_location + "/" + args["merging manifest path"]))
     } 
     wikisets.set.mergeManifests(run_location, manifest, merging_manifest)
-    this.log("Now syncing combined manifest")
     if (args.options["no-sync"] !== true) {
+      this.log("Now syncing combined manifest")
       wikisets.set.syncManifest(run_location, manifest)
     }
     callback()
@@ -63,6 +64,7 @@ vorpal
   .command("scrape <url>")
   .description("Scrape keywords and their given Wikipedia articles")
   .action(function(args, callback) {
+    wikisets.version.bumpVersion(run_location, manifest)
     var keywords = wikisets.keywords.scrapeURL(args.url)
     for (var i=0; i<keywords.length; i++) {
       wikisets.wikipedia.search(keywords[i], function(result) {
@@ -78,6 +80,7 @@ vorpal
   .option("-v, --verbatim", "Use the given article name verbatim")
   .option("-m, --multi [limit]", "Download all articles fuzzy matching your query")
   .action(function(args, callback) {
+    wikisets.version.bumpVersion(run_location, manifest)
     if (typeof args.options.verbatim !== "undefined" && typeof args.options.multi !== "undefined") {
       console.log("The verbatim and multi options can't both be used at once... Sorry!")
       callback()
@@ -110,20 +113,16 @@ vorpal
   .command("remove <article name>")
   .description("Remove a specific article from your set")
   .action(function (args, callback) {
+    wikisets.version.bumpVersion(run_location, manifest)
     wikisets.set.removeArticle(run_location, manifest, args["article name"])
     callback()
   })
 
 vorpal
-  .command("version [increment]")
-  .description("View or increment your set's version")
-  .action(function(args, callback) {
-    if (args.increment === undefined) {
-      console.log("Your set '" + manifest.name + "' is at version '" + manifest.version + "'")
-    }
-    else {
-      wikisets.version.versionIncrement(run_location, manifest, args.increment)
-    }
+  .command("undo")
+  .description("Undo your last set edit")
+  .action(function (args, callback) {
+    wikisets.version.revertVersion(run_location, manifest)
     callback()
   })
 
