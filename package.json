@@ -25,6 +25,7 @@
   "homepage": "https://alexwaitz.github.io/wikisets/",
   "dependencies": {
     "colors": "^1.1.2",
+    "glob": "^7.1.2",
     "jsdom": "^11.5.1",
     "keyword-extractor": "^0.0.15",
     "sync-request": "^4.1.0",
