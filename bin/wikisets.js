@@ -119,6 +119,14 @@ vorpal
   })
 
 vorpal
+  .command("undo")
+  .description("Undo your last set edit")
+  .action(function (args, callback) {
+    wikisets.version.revertVersion(run_location, manifest)
+    callback()
+  })
+
+vorpal
   .command("search <query>")
   .description("Search Wikipedia")
   .action(function(args, callback) {
