@@ -119,10 +119,29 @@ vorpal
   })
 
 vorpal
+  .command("update")
+  .description("Update all your articles' content")
+  .action(function (args, callback) {
+    wikisets.set.updateArticles(run_location, manifest)
+    callback()
+  })
+
+vorpal
   .command("undo")
   .description("Undo your last set edit")
   .action(function (args, callback) {
     wikisets.version.revertVersion(run_location, manifest)
+    callback()
+  })
+
+vorpal
+  .command("list")
+  .alias("ls")
+  .description("List all the articles in your set")
+  .action(function(args, callback) {
+    for (var i=0; i<manifest.articles.length; i++){
+      console.log((i+1) + ": " + manifest.articles[i])
+    }
     callback()
   })
 
