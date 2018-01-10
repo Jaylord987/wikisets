@@ -1,5 +1,7 @@
 # `remove`
 
+> This command can also be used as `rm`
+
 ## Description
 The `remove` command is used to remove articles from your set. This means it'll be removed from your downloaded articles and also be removed from your manifest.
 

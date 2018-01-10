@@ -5,7 +5,7 @@ The `add` command is used to add articles to your set. This means it'll download
 
 ## Settings
 ### `-v, --verbatim`
-Instead of searching the query and using the top result, the given article name will be used directly to get article content.
+Instead of searching the query and using the top result, the given article name will be used directly to get article content. But, the query will still be automatically capitalized.
 
 ### `-m, --multi [limit]`
 When using the passed query to search Wikipedia, instead of only using the top article's content, the top 10 result's content are used. This number can be upped or lowered by passing a limit value.

@@ -8,6 +8,7 @@ var vorpal = require("vorpal")()
 var fs = require("fs")
 var colors = require("colors")
 var request = require("sync-request")
+var Case = require("case")
 var wikisets = require("../lib/index.js")
 
 var run_location = process.cwd()
@@ -81,6 +82,7 @@ vorpal
   .option("-m, --multi [limit]", "Download all articles fuzzy matching your query")
   .action(function(args, callback) {
     wikisets.version.bumpVersion(run_location, manifest)
+    args["article name"] = Case.title(args["article name"])
     if (typeof args.options.verbatim !== "undefined" && typeof args.options.multi !== "undefined") {
       console.log("The verbatim and multi options can't both be used at once... Sorry!")
       callback()
@@ -111,9 +113,11 @@ vorpal
 
 vorpal
   .command("remove <article name>")
+  .alias("rm")
   .description("Remove a specific article from your set")
   .action(function (args, callback) {
     wikisets.version.bumpVersion(run_location, manifest)
+    args["article name"] = Case.title(args["article name"])
     wikisets.set.removeArticle(run_location, manifest, args["article name"])
     callback()
   })
