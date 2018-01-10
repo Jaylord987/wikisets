@@ -36,7 +36,9 @@ To run the program, simply type in `wikisets` in the desired directory.
 ### [`scrape`](./commands/scrape.html)
 ### [`add`](./commands/add.html)
 ### [`remove`](./commands/remove.html)
-### [`version`](./commands/version.html)
+### [`update`](./commands/update.html)
+### [`undo`](./commands/undo.html)
+### [`list`](./commands/list.html)
 ### [`search`](./commands/search.html)
 
 # Contact
