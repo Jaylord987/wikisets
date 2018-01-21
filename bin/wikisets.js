@@ -52,7 +52,7 @@ vorpal
     else {
       this.log("Loading passed file path")
       merging_manifest = JSON.parse(fs.readFileSync(run_location + "/" + args["merging manifest path"]))
-    } 
+    }
     wikisets.set.mergeManifests(run_location, manifest, merging_manifest)
     if (args.options["no-sync"] !== true) {
       this.log("Now syncing combined manifest")
