@@ -33,4 +33,4 @@ To run the program, simply type in `wikisets` in the desired directory.
 If you have any questions, comments, or concerns, send me an email at [alexanderjwaitz@gmail.com](mailto:alexanderjwaitz@gmail.com)
 
 # Docs
-To see more in-depth documentation for Wikisets, visit [this page](https://alexwaitz.github.io/wikisets).
+To see more in-depth documentation for Wikisets, visit [this page](https://alexwaitz.github.io/wikisets/docs).
