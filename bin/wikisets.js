@@ -15,6 +15,7 @@ var run_location = process.cwd()
 
 if (fs.existsSync(run_location + "/_set.json") === true){
   var manifest = JSON.parse(fs.readFileSync(run_location + "/_set.json"))
+  wikisets.set.repairManifest(run_location, manifest)
 }
 else {
   console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .' If you choose to do so, please simply restart Wikisets in the same directory to allow the program to load the proper files needed for it to run properly.")
