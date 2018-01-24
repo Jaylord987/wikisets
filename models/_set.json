@@ -1,6 +1,7 @@
 {
   "name": "Model Set",
   "info": "This set is simply a model",
+  "history": true,
   "extension": ".txt",
   "articles": [
   ]
