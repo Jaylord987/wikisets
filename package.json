@@ -1,6 +1,6 @@
 {
   "name": "wikisets",
-  "version": "2.1.5-alpha",
+  "version": "2.1.6-alpha",
   "description": "Offline Wikipedia Set Manager",
   "main": "lib/index.js",
   "bin": {
