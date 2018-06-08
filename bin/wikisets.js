@@ -1,21 +1,18 @@
 #!/usr/bin/env node
 
-/*
-CLI script
-*/
-
 var vorpal = require("vorpal")()
 var fs = require("fs")
 var colors = require("colors")
 var request = require("sync-request")
 var Case = require("case")
-var wikisets = require("../lib/index.js")
+var Wikipedia = require("wikijs").default
+var {Wikisets, createSet} = require("../dist/Wikisets.js")
 
-var run_location = process.cwd()
+const runLocation = process.cwd()
 
-if (fs.existsSync(run_location + "/_set.json") === true){
-  var manifest = JSON.parse(fs.readFileSync(run_location + "/_set.json"))
-  wikisets.set.repairManifest(run_location, manifest)
+if (fs.existsSync(runLocation + "/_set.json") === true) {
+  var wikisets = new Wikisets(runLocation)
+  wikisets.repairManifest()
 }
 else {
   console.log("Alert!".red + "\nNo set manifest file ('_set.json') was found in this directory. Either move to a directory where a set manifest file exists or create a new set. To do so, use the 'new' command.\nIf you want to create the new set in this current directory, simply use this command: 'new .' If you choose to do so, please simply restart Wikisets in the same directory to allow the program to load the proper files needed for it to run properly.")
@@ -24,17 +21,16 @@ else {
 vorpal
   .command("new <set directory>")
   .description("Create a new set")
-  .action(function(args, callback) {
-    wikisets.set.newSet(run_location + "/" + args["set directory"])
+  .action((args, callback) => {
+    createSet(runLocation + "/" + args["set directory"])
     callback()
   })
 
 vorpal
   .command("sync")
   .description("Syncing manifest and downloaded articles")
-  .action(function(args, callback) {
-    wikisets.set.syncManifest(run_location, manifest)
-    callback()
+  .action((args, callback) => {
+    wikisets.syncManifest().then(callback())
   })
 
 vorpal
@@ -42,38 +38,23 @@ vorpal
   .description("Merge a different set with your current one")
   .option("--no-sync", "Don't sync the combined manifest")
   .option("-u, --url", "Use the merging manifest path as a URL")
-  .action(function(args, callback) {
-    wikisets.version.bumpVersion(run_location, manifest)
+  .action((args, callback) => {
     var merging_manifest
     if (args.options.url === true) {
-      this.log("Loading data from passed URL")
+      console.log("Loading data from passed URL")
       var res = request("GET", args["merging manifest path"])
       merging_manifest = JSON.parse(res.getBody())
     }
     else {
-      this.log("Loading passed file path")
-      merging_manifest = JSON.parse(fs.readFileSync(run_location + "/" + args["merging manifest path"]))
+      console.log("Loading passed file path")
+      merging_manifest = JSON.parse(fs.readFileSync(runLocation + "/" + args["merging manifest path"]))
     }
-    wikisets.set.mergeManifests(run_location, manifest, merging_manifest)
-    if (args.options["no-sync"] !== true) {
-      this.log("Now syncing combined manifest")
-      wikisets.set.syncManifest(run_location, manifest)
-    }
-    callback()
-  })
-
-vorpal
-  .command("scrape <url>")
-  .description("Scrape keywords and their given Wikipedia articles")
-  .action(function(args, callback) {
-    wikisets.version.bumpVersion(run_location, manifest)
-    var keywords = wikisets.keywords.scrapeURL(args.url)
-    for (var i=0; i<keywords.length; i++) {
-      wikisets.wikipedia.search(keywords[i], function(result) {
-        wikisets.set.addArticle(run_location, manifest, result.results[0])
-      })
-    }
-    callback()
+    wikisets.mergeManifests(merging_manifest).then(() => {
+      if (args.options["no-sync"] !== true) {
+        console.log("Now syncing combined manifest")
+        wikisets.syncManifest().then(callback())
+      }
+    })
   })
 
 vorpal
@@ -81,71 +62,71 @@ vorpal
   .description("Add a specific article to your set")
   .option("-v, --verbatim", "Use the given article name verbatim")
   .option("-m, --multi [limit]", "Download all articles fuzzy matching your query")
-  .action(function(args, callback) {
-    wikisets.version.bumpVersion(run_location, manifest)
-    args["article name"] = Case.title(args["article name"])
-    if (typeof args.options.verbatim !== "undefined" && typeof args.options.multi !== "undefined") {
-      console.log("The verbatim and multi options can't both be used at once... Sorry!")
-      callback()
-      return
-    }
+  .action((args, callback) => {
     if (args.options.verbatim === true) {
-      wikisets.set.addArticle(run_location, manifest, args["article name"])
+      wikisets.addArticle(args["article name"])
       callback()
       return
     }
+    args["article name"] = Case.title(args["article name"])
     var limit
     if (typeof args.options.multi !== "undefined") {
       limit = 9
-      if (typeof args.options.multi === "number") {
-        limit = args.options.multi - 1
-      }
+    }
+    if (typeof args.options.multi === "number") {
+      limit = args.options.multi - 1
     }
     else {
       limit = 1
     }
-    wikisets.wikipedia.search(args["article name"], function(result) {
-      for (var i=0; i<limit; i++) {
-        wikisets.set.addArticle(run_location, manifest, result.results[i])
-      }
-    })
-    callback()
+    if (typeof args.options.verbatim !== "undefined" && typeof args.options.multi !== "undefined") {
+      console.log("The verbatim and multi options can't both be used at once")
+      callback()
+      return
+    }
+    Wikipedia()
+      .search(args["article name"])
+      .then(function(result) {
+        for (var i=0; i<limit; i++) {
+          wikisets.addArticle(result.results[i])
+        }
+      })
+      .then(callback())
   })
 
 vorpal
   .command("remove <article name>")
   .alias("rm")
   .description("Remove a specific article from your set")
-  .action(function (args, callback) {
-    wikisets.version.bumpVersion(run_location, manifest)
+  .action((args, callback) => {
     args["article name"] = Case.title(args["article name"])
-    wikisets.set.removeArticle(run_location, manifest, args["article name"])
-    callback()
+    wikisets.removeArticle(args["article name"])
+      .then(callback())
   })
 
 vorpal
   .command("update")
   .description("Update all your articles' content")
-  .action(function (args, callback) {
-    wikisets.set.updateArticles(run_location, manifest)
-    callback()
+  .action((args, callback) => {
+    wikisets.updateArticles()
+      .then(callback())
   })
 
 vorpal
   .command("undo")
   .description("Undo your last set edit")
-  .action(function (args, callback) {
-    wikisets.version.revertVersion(run_location, manifest)
-    callback()
+  .action((args, callback) => {
+    wikisets.Version.revertVersion(wikisets.directory, wikisets.manifest)
+      .then(callback())
   })
 
 vorpal
   .command("list")
   .alias("ls")
   .description("List all the articles in your set")
-  .action(function(args, callback) {
-    for (var i=0; i<manifest.articles.length; i++){
-      console.log((i+1) + ": " + manifest.articles[i])
+  .action((args, callback) => {
+    for (var i=0; i<wikisets.manifest.articles.length; i++){
+      console.log((i+1) + ": " + wikisets.manifest.articles[i])
     }
     callback()
   })
@@ -153,22 +134,24 @@ vorpal
 vorpal
   .command("search <query>")
   .description("Search Wikipedia")
-  .action(function(args, callback) {
-    wikisets.wikipedia.search(args.query, function(result) {
-      for (var i=0; i<result.results.length; i++) {
-        console.log(result.results[i])
-      }
-    })
-    callback()
+  .action((args, callback) => {
+    Wikipedia()
+      .search(args.query)
+      .then(function(result) {
+        for (var i=0; i<result.results.length; i++) {
+          console.log(result.results[i])
+        }
+        callback()
+      })
   })
 
 vorpal
   .command("contact")
   .description("Get developer's contact info")
-  .action(function(args, callback) {
-    this.log("Send me an email at " + "alexanderjwaitz@gmail.com".blue)
-    this.log("Check out my Github at " + "https://github.com/alexwaitz".green)
-    this.log("Submit a bug report at " + "https://github.com/alexwaitz/wikisets/issues".red)
+  .action((args, callback) => {
+    console.log("Send me an email at " + "alexanderjwaitz@gmail.com".blue)
+    console.log("Check out my Github at " + "https://github.com/alexwaitz".green)
+    console.log("Submit a bug report at " + "https://github.com/alexwaitz/wikisets/issues".red)
     callback()
   })
 

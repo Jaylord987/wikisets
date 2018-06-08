@@ -139,8 +139,8 @@ var Wikisets = function () {
       });
     }
   }, {
-    key: 'mergeManifest',
-    value: function mergeManifest(secondaryManifest) {
+    key: 'mergeManifests',
+    value: function mergeManifests(secondaryManifest) {
       var directory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.directory;
       var primaryManifest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.manifest;
 

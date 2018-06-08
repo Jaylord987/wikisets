@@ -80,7 +80,7 @@ class Wikisets {
       }
     })
   }
-  mergeManifest(secondaryManifest, directory = this.directory, primaryManifest = this.manifest) {
+  mergeManifests(secondaryManifest, directory = this.directory, primaryManifest = this.manifest) {
     return new Promise((resolve, reject) => {
       console.log('Combining and saving manifest')
       primaryManifest.articles = concat(primaryManifest.articles, secondaryManifest.articles);
