@@ -8,8 +8,6 @@
   },
   "scripts": {
     "dev": "babel src -d dist --watch",
-    "test": "node test/main.js",
-    "try": "node try.js",
     "docs": "jsdoc src/Wikisets.js src/Version.js src/Parser.js -d docs -t ./node_modules/minami -R README.md"
   },
   "repository": {
@@ -25,7 +23,6 @@
   "bugs": {
     "url": "https://github.com/alexwaitz/wikisets/issues"
   },
-  "homepage": "https://alexwaitz.github.io/wikisets/",
   "dependencies": {
     "case": "^1.5.4",
     "cheerio": "^1.0.0-rc.2",
