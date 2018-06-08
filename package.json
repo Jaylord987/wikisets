@@ -7,7 +7,9 @@
     "wikisets": "./bin/wikisets.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "babel src -d dist --watch",
+    "test": "node test/main.js",
+    "try": "node try.js"
   },
   "repository": {
     "type": "git",
@@ -33,5 +35,9 @@
     "unique-concat": "^0.2.2",
     "vorpal": "^1.12.0",
     "wikijs": "^4.5.0"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
   }
 }
