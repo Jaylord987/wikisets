@@ -103,6 +103,7 @@ var Wikisets = function () {
       var directory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.directory;
       var manifest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.manifest;
 
+      this.Version.bumpVersion(directory, manifest);
       return new Promise(function (resolve, reject) {
         (0, _wikijs2.default)().page(title).then(function (page) {
           return page.content();
@@ -116,6 +117,73 @@ var Wikisets = function () {
           }
         });
       });
+    }
+  }, {
+    key: 'removeArticle',
+    value: function removeArticle(title) {
+      var directory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.directory;
+      var manifest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.manifest;
+
+      this.Version.bumpVersion(directory, manifest);
+      return new Promise(function (resolve, reject) {
+        try {
+          console.log('Removing "' + title + '"');
+          _fs2.default.unlinkSync(directory + "/" + title + manifest.extension);
+          manifest.articles.splice(manifest.articles.indexOf(title), 1);
+          _fs2.default.writeFileSync(directory + '/' + '_set.json', JSON.stringify(manifest, null, '\t'));
+          resolve(manifest);
+        } catch (err) {
+          console.log('"' + title + '" wasn\'t found');
+          reject('Article not found in manifest');
+        }
+      });
+    }
+  }, {
+    key: 'mergeManifest',
+    value: function mergeManifest(secondaryManifest) {
+      var directory = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.directory;
+      var primaryManifest = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : this.manifest;
+
+      return new Promise(function (resolve, reject) {
+        console.log('Combining and saving manifest');
+        primaryManifest.articles = (0, _uniqueConcat2.default)(primaryManifest.articles, secondaryManifest.articles);
+        _fs2.default.writeFileSync(directory + '/' + '_set.json', JSON.stringify(primaryManifest, null, '\t'));
+        resolve(manifest);
+      });
+    }
+  }, {
+    key: 'updateArticles',
+    value: function updateArticles() {
+      var _this3 = this;
+
+      var directory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.directory;
+      var manifest = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.manifest;
+
+      return new Promise(function (resolve, reject) {
+        for (var i = 0; i < manifest.articles.length; i++) {
+          (0, _wikijs2.default)().page(title).then(function (page) {
+            return page.content();
+          }).then(function (content) {
+            console.log('Updating "' + manifest.articles[i] + '"');
+            _fs2.default.writeFileSync(directory + '/' + manifest.articles[i] + manifest.extension, _this3.Parser.mediawikiToMarkdown(content));
+            resolve(manifest);
+          });
+        }
+      });
+    }
+  }, {
+    key: 'repairManifest',
+    value: function repairManifest() {
+      var directory = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.directory;
+      var manifest = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.manifest;
+
+      if (manifest.extension === undefined) {
+        manifest.extension = '.txt';
+      }
+      if (manifest.articles === undefined) {
+        manifest.articles = [];
+      }
+      _fs2.default.writeFileSync(directory + '/_set.json', JSON.stringify(manifest, null, '\t'));
     }
   }]);
 

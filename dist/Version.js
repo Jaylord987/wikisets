@@ -18,7 +18,9 @@ var Version = function () {
   function Version() {
     _classCallCheck(this, Version);
 
-    this.model = [];
+    this.model = {
+      history: []
+    };
   }
 
   _createClass(Version, [{
@@ -37,13 +39,13 @@ var Version = function () {
     value: function bumpVersion(directory, manifest) {
       return new Promise(function (resolve, reject) {
         if (manifest.history === true) {
-          history_manifest = JSON.parse(_fs2.default.readFileSync(directory + '/_set-history.json'));
-          history_item_model = {
+          var historyManifest = JSON.parse(_fs2.default.readFileSync(directory + '/_set-history.json'));
+          var historyEntryModel = {
             timestamp: new Date(),
             manifest: manifest
           };
-          history_manifest.history.push(history_item_model);
-          _fs2.default.writeFileSync(directory + '/_set-history.json', JSON.stringify(history_manifest, null, '\t'));
+          historyManifest.history.push(historyEntryModel);
+          _fs2.default.writeFileSync(directory + '/_set-history.json', JSON.stringify(historyManifest, null, '\t'));
           resolve(manifest);
         }
         if (manifest.history === false) {
@@ -57,12 +59,11 @@ var Version = function () {
     value: function revertVersion(directory, manifest) {
       return new Promise(function (resolve, reject) {
         if (manifest.history === true) {
-          history_manifest = JSON.parse(_fs2.default.readFileSync(directory + '/_set-history.json'));
-          manifest = history_manifest.history[history_manifest.history.length - 1].manifest;
-          history_manifest.history.pop();
+          var historyManifest = JSON.parse(_fs2.default.readFileSync(directory + '/_set-history.json'));
+          manifest = historyManifest.history[historyManifest.history.length - 1].manifest;
+          historyManifest.history.pop();
           _fs2.default.writeFileSync(directory + '/_set.json', JSON.stringify(manifest, null, '\t'));
-          _fs2.default.writeFileSync(directory + '/_set-history.json', JSON.stringify(history_manifest, null, '\t'));
-          wikisets.set.syncManifest(directory, manifest);
+          _fs2.default.writeFileSync(directory + '/_set-history.json', JSON.stringify(historyManifest, null, '\t'));
           resolve(manifest);
         }
         if (manifest.history === false) {

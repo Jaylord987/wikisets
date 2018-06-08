@@ -48,6 +48,7 @@ class Wikisets {
     });
   }
   addArticle(title, directory = this.directory, manifest = this.manifest) {
+    this.Version.bumpVersion(directory, manifest);
     return new Promise((resolve, reject) => {
       Wikipedia()
         .page(title)
@@ -62,6 +63,53 @@ class Wikisets {
           }
         });
     });
+  }
+  removeArticle(title, directory = this.directory, manifest = this.manifest) {
+    this.Version.bumpVersion(directory, manifest);
+    return new Promise((resolve, reject) => {
+      try {
+        console.log('Removing "' + title + '"');
+        fs.unlinkSync(directory + "/" + title + manifest.extension);
+        manifest.articles.splice(manifest.articles.indexOf(title), 1);
+        fs.writeFileSync(directory + '/' + '_set.json', JSON.stringify(manifest, null, '\t'));
+        resolve(manifest);
+      }
+      catch (err) {
+        console.log('"' + title + '" wasn\'t found');
+        reject('Article not found in manifest');
+      }
+    })
+  }
+  mergeManifest(secondaryManifest, directory = this.directory, primaryManifest = this.manifest) {
+    return new Promise((resolve, reject) => {
+      console.log('Combining and saving manifest')
+      primaryManifest.articles = concat(primaryManifest.articles, secondaryManifest.articles);
+      fs.writeFileSync(directory + '/' + '_set.json', JSON.stringify(primaryManifest, null, '\t'));
+      resolve(manifest);
+    })
+  }
+  updateArticles(directory = this.directory, manifest = this.manifest) {
+    return new Promise((resolve, reject) => {
+      for (var i=0; i<manifest.articles.length; i++) {
+        Wikipedia()
+          .page(title)
+          .then(page => page.content())
+          .then((content) => {
+            console.log('Updating "' + manifest.articles[i] + '"')
+            fs.writeFileSync(directory + '/' + manifest.articles[i] + manifest.extension, this.Parser.mediawikiToMarkdown(content))
+            resolve(manifest)
+          });
+      }
+    })
+  }
+  repairManifest(directory = this.directory, manifest = this.manifest) {
+    if (manifest.extension === undefined) {
+      manifest.extension = '.txt'
+    }
+    if (manifest.articles === undefined) {
+      manifest.articles = []
+    }
+    fs.writeFileSync(directory + '/_set.json', JSON.stringify(manifest, null, `\t`))
   }
 }
 

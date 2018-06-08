@@ -2,8 +2,11 @@ import fs from 'fs';
 
 class Version {
   constructor() {
-    this.model = [
-    ]
+    this.model = {
+      history: [
+        
+      ]
+    }
   }
   createHistoryManifest(directory) {
     return new Promise((resolve, reject) => {
@@ -15,13 +18,13 @@ class Version {
   bumpVersion(directory, manifest) {
     return new Promise((resolve, reject) => {
       if (manifest.history === true) {
-        history_manifest = JSON.parse(fs.readFileSync(directory + '/_set-history.json'));
-        history_item_model = {
+        let historyManifest = JSON.parse(fs.readFileSync(directory + '/_set-history.json'));
+        let historyEntryModel = {
           timestamp: new Date,
           manifest: manifest
         }
-        history_manifest.history.push(history_item_model);
-        fs.writeFileSync(directory + '/_set-history.json', JSON.stringify(history_manifest, null, '\t'));
+        historyManifest.history.push(historyEntryModel);
+        fs.writeFileSync(directory + '/_set-history.json', JSON.stringify(historyManifest, null, '\t'));
         resolve(manifest);
       }
       if (manifest.history === false) {
@@ -33,12 +36,11 @@ class Version {
   revertVersion(directory, manifest) {
     return new Promise((resolve, reject) => {
       if (manifest.history === true) {
-        history_manifest = JSON.parse(fs.readFileSync(directory + '/_set-history.json'));
-        manifest = history_manifest.history[history_manifest.history.length-1].manifest;
-        history_manifest.history.pop();
+        let historyManifest = JSON.parse(fs.readFileSync(directory + '/_set-history.json'));
+        manifest = historyManifest.history[historyManifest.history.length-1].manifest;
+        historyManifest.history.pop();
         fs.writeFileSync(directory + '/_set.json', JSON.stringify(manifest, null, '\t'));
-        fs.writeFileSync(directory + '/_set-history.json', JSON.stringify(history_manifest, null, '\t'));
-        wikisets.set.syncManifest(directory, manifest);
+        fs.writeFileSync(directory + '/_set-history.json', JSON.stringify(historyManifest, null, '\t'));
         resolve(manifest);
       }
       if (manifest.history === false) {
