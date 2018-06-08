@@ -16,7 +16,7 @@ Wikisets is a CLI based application. It's purpose is to make it easy to get rele
 
 *Please Note*
 
-Wikisets is still in a alpha development period. Many features are to be coming. Also, as development progresses, much of the functionality and features are subject to change.
+While the master branch is very nice, this branch is going to contain major rewrites. Wikisets will soon be promised based, as well as uses ES6 classes and be made with better Javascript conventions.
 
 Also! A GUI is being written for Wikisets! It's called Soda, and can be found [here](https://github.com/alexwaitz/soda).
 
