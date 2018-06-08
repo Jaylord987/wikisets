@@ -9,7 +9,8 @@
   "scripts": {
     "dev": "babel src -d dist --watch",
     "test": "node test/main.js",
-    "try": "node try.js"
+    "try": "node try.js",
+    "docs": "jsdoc src/Wikisets.js src/Version.js src/Parser.js -d docs -t ./node_modules/minami -R README.md"
   },
   "repository": {
     "type": "git",
@@ -38,6 +39,8 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "babel-preset-env": "^1.7.0",
+    "jsdoc": "^3.5.5",
+    "minami": "^1.2.3"
   }
 }

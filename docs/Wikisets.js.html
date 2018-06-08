@@ -1,4 +1,45 @@
-//modules
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Wikisets.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Parser.html">Parser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Parser.html#breakIntoLines">breakIntoLines</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Parser.html#mediawikiToMarkdown">mediawikiToMarkdown</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Version.html">Version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#bumpVersion">bumpVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#createHistoryManifest">createHistoryManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#revertVersion">revertVersion</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Wikisets.html">Wikisets</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#addArticle">addArticle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#mergeManifests">mergeManifests</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#removeArticle">removeArticle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#repairManifest">repairManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#syncManifest">syncManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#updateArticles">updateArticles</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createSet">createSet</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Wikisets.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>//modules
 import fs from 'fs';
 import path from 'path';
 import concat from 'unique-concat';
@@ -38,7 +79,7 @@ class Wikisets {
   syncManifest(directory = this.directory, manifest = this.manifest) {
     return new Promise((resolve, reject) => {
       glob(directory + '/*' + manifest.extension, (err, files) => {
-        for (let i=0; i<files.length; i++) {
+        for (let i=0; i&lt;files.length; i++) {
           let article_name = files[i].replace(/^.*[\\\/]/, '');
           article_name = article_name.substring(0, article_name.length-4);
           if (manifest.articles.indexOf(article_name) === -1) {
@@ -46,7 +87,7 @@ class Wikisets {
           fs.unlinkSync(files[i]);
           }
         }
-        for (let i=0; i<manifest.articles.length; i++) {
+        for (let i=0; i&lt;manifest.articles.length; i++) {
           let exist_status = fs.existsSync(directory + '/' + manifest.articles[i] + manifest.extension);
           if (exist_status === true) {
             console.log('"' + manifest.articles[i] + '" exists');
@@ -151,7 +192,7 @@ class Wikisets {
    */
   updateArticles(directory = this.directory, manifest = this.manifest) {
     return new Promise((resolve, reject) => {
-      for (var i=0; i<manifest.articles.length; i++) {
+      for (var i=0; i&lt;manifest.articles.length; i++) {
         Wikipedia()
           .page(title)
           .then(page => page.content())
@@ -209,4 +250,22 @@ let createSet = (directory) => {
   version.createHistoryManifest(directory);
 }
 
-export {Wikisets, createSet}
+export {Wikisets, createSet}</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 08 2018 00:49:12 GMT-0700 (PDT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Parser.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Parser.html">Parser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Parser.html#breakIntoLines">breakIntoLines</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Parser.html#mediawikiToMarkdown">mediawikiToMarkdown</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Version.html">Version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#bumpVersion">bumpVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#createHistoryManifest">createHistoryManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Version.html#revertVersion">revertVersion</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Wikisets.html">Wikisets</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#addArticle">addArticle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#mergeManifests">mergeManifests</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#removeArticle">removeArticle</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#repairManifest">repairManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#syncManifest">syncManifest</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Wikisets.html#updateArticles">updateArticles</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createSet">createSet</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">Parser.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Parser subclass constructor
+ * @class
+ * @example
+ * wikiset.Parser.insertMethodHere();
+ * //or
+ * let parser = new Parser();
+ */
+class Parser {
+    /**
+     * Break a string into lines
+     * @method
+     * 
+     * @param {string} input - String to break into lines
+     * @returns {list} List of all the individual strings
+     */
+    breakIntoLines(input) {
+        let output = [];
+        let current_line = '';
+        for (let i=0; i&lt;input.length; i++) {
+            if (input[i] === '\n') {
+                output.push(current_line);
+                current_line = '';
+            }
+            else {
+                current_line = current_line + input[i];
+            }
+        }
+        return output;
+    }
+    /**
+     * Turn a string formatted with mediawiki to one formatted with markdown
+     * @method
+     * 
+     * @param {string} input - String to convert
+     * @returns {string} Outputted, formatted markdown string
+     */
+    mediawikiToMarkdown(input) {
+        let list_of_lines = this.breakIntoLines(input);
+        for (let i=0; i&lt;list_of_lines.length; i++) {
+            for (let q=2; q&lt;7; q++) {
+                let section_marker = '='.repeat(q);
+                if (list_of_lines[i].startsWith(section_marker + ' ')) {
+                    list_of_lines[i] = list_of_lines[i].replace(section_marker, '#'.repeat(q));
+                    list_of_lines[i] = list_of_lines[i].replace(' ' + section_marker, '');
+                }
+            }
+        }
+        return list_of_lines.join('\n');
+    }
+}
+
+export default Parser;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Fri Jun 08 2018 00:49:12 GMT-0700 (PDT) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

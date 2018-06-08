@@ -1,4 +1,19 @@
+/**
+ * Parser subclass constructor
+ * @class
+ * @example
+ * wikiset.Parser.insertMethodHere();
+ * //or
+ * let parser = new Parser();
+ */
 class Parser {
+    /**
+     * Break a string into lines
+     * @method
+     * 
+     * @param {string} input - String to break into lines
+     * @returns {list} List of all the individual strings
+     */
     breakIntoLines(input) {
         let output = [];
         let current_line = '';
@@ -13,6 +28,13 @@ class Parser {
         }
         return output;
     }
+    /**
+     * Turn a string formatted with mediawiki to one formatted with markdown
+     * @method
+     * 
+     * @param {string} input - String to convert
+     * @returns {string} Outputted, formatted markdown string
+     */
     mediawikiToMarkdown(input) {
         let list_of_lines = this.breakIntoLines(input);
         for (let i=0; i<list_of_lines.length; i++) {
