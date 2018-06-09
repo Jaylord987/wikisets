@@ -30,5 +30,50 @@ Yarn: `yarn global add wikisets`
 
 To run the program, simply type in `wikisets` in the desired directory. After the application begins, typing `help` will provide a list of commands.
 
+# Library Tutorial
+
+First and most obviously, the library needs to be imported:
+
+```
+var {Wikisets, createSet} = require('../dist/Wikisets.js');
+```
+
+There are two things that the main file exports: the Wikisets constructor and a function called `createSet`. If you have no existing sets created, `createSet` will be needed, as the Wikisets constructor needs a set to already exist in order to construct a "set" object.
+
+```
+// Creating a set in the directory called "my_dir"
+createSet('./my_dir');
+
+// Constructing a "set" object for the set in "my_dir"
+let wikiset = new Wikisets('./my_dir');
+```
+
+Following, you can execute various operations on the set:
+
+```
+wikiset.addArticle('Jazz')
+    .then(anotherFunction());
+
+wikiset.repairManifest()
+    .then(anotherFunction());
+
+// etc
+```
+
+For more methods you can use, visit the Wikiset object's [documentation page](https://alexwaitz.github.io/wikisets/Wikisets.html).
+
+Furthermore, there are also other methods in subclasses. These subclasses can be accessed as such:
+
+```
+wikiset.Version.someMethod();
+// or
+wikiset.Parser.someMethod();
+```
+
+The documentation for these subclasses are their methods can be accessed here:
+
+- [Parser](https://alexwaitz.github.io/wikisets/Parser.html)
+- [Version](https://alexwaitz.github.io/wikisets/Version.html)
+
 # Contact
 If you have any questions, comments, or concerns, send me an email at [alexanderjwaitz@gmail.com](mailto:alexanderjwaitz@gmail.com)

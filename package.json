@@ -17,12 +17,13 @@
   "author": {
     "name": "Alexander Waitz",
     "email": "alexanderjwaitz@gmail.com",
-    "url": "https://github.com/alexwaitz"
+    "url": "https://alexwaitz.github.io/"
   },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/alexwaitz/wikisets/issues"
   },
+  "homepage": "https://alexwaitz.github.io/wikisets/",
   "dependencies": {
     "case": "^1.5.4",
     "cheerio": "^1.0.0-rc.2",
