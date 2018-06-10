@@ -1,6 +1,5 @@
 //modules
 import fs from 'fs';
-import path from 'path';
 import concat from 'unique-concat';
 import glob from 'glob';
 import {default as Wikipedia} from 'wikijs';

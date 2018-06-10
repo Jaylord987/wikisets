@@ -2,7 +2,7 @@
   "name": "wikisets",
   "version": "3.0.0-alpha",
   "description": "Offline Wikipedia Set Manager",
-  "main": "lib/index.js",
+  "main": "dist/Wikisets.js",
   "bin": {
     "wikisets": "./bin/wikisets.js"
   },
