@@ -8,6 +8,14 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+/**
+ * Parser subclass constructor
+ * @class
+ * @example
+ * wikiset.Parser.insertMethodHere();
+ * //or
+ * let parser = new Parser();
+ */
 var Parser = function () {
     function Parser() {
         _classCallCheck(this, Parser);
@@ -15,6 +23,14 @@ var Parser = function () {
 
     _createClass(Parser, [{
         key: 'breakIntoLines',
+
+        /**
+         * Break a string into lines
+         * @method
+         * 
+         * @param {string} input - String to break into lines
+         * @returns {list} List of all the individual strings
+         */
         value: function breakIntoLines(input) {
             var output = [];
             var current_line = '';
@@ -28,6 +44,14 @@ var Parser = function () {
             }
             return output;
         }
+        /**
+         * Turn a string formatted with mediawiki to one formatted with markdown
+         * @method
+         * 
+         * @param {string} input - String to convert
+         * @returns {string} Outputted, formatted markdown string
+         */
+
     }, {
         key: 'mediawikiToMarkdown',
         value: function mediawikiToMarkdown(input) {

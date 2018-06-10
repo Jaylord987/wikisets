@@ -29,7 +29,6 @@ class Version {
    */
   createHistoryManifest(directory) {
     return new Promise((resolve, reject) => {
-      console.log('Creating history manifest');
       fs.writeFileSync(directory + '/_set-history.json', JSON.stringify(this.model, null, '\t'));
       resolve(directory);
     });
@@ -59,7 +58,6 @@ class Version {
         resolve(manifest);
       }
       if (manifest.history === false) {
-        console.log('Looks like "history" is set to false in your manifest file. Change it to true to enable history functions');
         reject('The "history" attribute in your manifest file has been set to false');
       }
     });
@@ -87,7 +85,6 @@ class Version {
         resolve(manifest);
       }
       if (manifest.history === false) {
-        console.log('Looks like the "history" is set to false in your manifest file. Change it to true to enable history functions');
         reject('The "history" attribute in your manifest file has been set to false');
       }
     });
